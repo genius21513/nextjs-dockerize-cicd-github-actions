@@ -11,7 +11,7 @@ export default function Home({ posts }) {
   return (
     <>
       <Layout>
-        <p>This is Home</p>
+        <p>This is Home __ !!! </p>
 
         <div>
           <ul>
