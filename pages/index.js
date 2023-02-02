@@ -11,7 +11,7 @@ export default function Home({ posts }) {
   return (
     <>
       <Layout>
-        <p>This is Home Page. for test</p>
+        <p>This is Home Page.</p>
 
         <div>
           <ul>
