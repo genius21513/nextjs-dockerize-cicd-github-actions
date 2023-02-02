@@ -20,6 +20,6 @@ jobs:
     - run: npm install
     - run: npm run build --if-present
     # - run: pm2 reload next-js
-    - run: sudo docker-compose up -d --build
+    - run: sudo docker-compose down && sudo docker-compose up --build
       env:
         CI: true
