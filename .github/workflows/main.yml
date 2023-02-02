@@ -11,7 +11,7 @@ jobs:
   next-build:
     # if: ${{ github.event_name == 'workflow_dispatch' }}       # Run only if triggered manually
     runs-on: ubuntu-latest
-    container: node:lts          # Use node LTS container version, same as Dockerfile base image
+    container: node:16          # Use node 16 container version, same as Dockerfile base image
     steps:
       - name: Checkout
         uses: actions/checkout@v2       # Checkout the code
@@ -30,7 +30,7 @@ jobs:
           path: |
             .next
             public
-          retention-days: 7         # artifact retention duration, can be upto 30 days
+          # retention-days: 7         # artifact retention duration, can be upto 30 days
   docker-push:
     needs: next-build        # Job depends on next-build(above) job
     runs-on: ubuntu-latest
@@ -42,15 +42,15 @@ jobs:
         with:
           name: build
       - name: Login to GitHub Container Registry
-        # uses: docker/login-action@v2
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
-        # with:
-        #   registry: ghcr.io
-        #   username: ${{ github.actor }}
-        #   password: ${{ secrets.GITHUB_TOKEN }}
+        uses: docker/login-action@v2
+        # run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+        with:
+          registry: ghcr.io
+          # username: ${{ github.actor }}
+          # password: ${{ secrets.GITHUB_TOKEN }}
 
-          # username: ${{ github.repository_owner }}
-          # password: ${{ secrets.CR_PAT }}          
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}          
       - name: Build and Push Docker Images
         run: |
           export CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
